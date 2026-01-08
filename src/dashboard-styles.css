@@ -100,7 +100,6 @@
   position: relative;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  flex-shrink: 0;
 }
 
 .dashboard-toggle::after {
@@ -113,7 +112,7 @@
   top: 2px;
   left: 2px;
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-dashboard-toggle);
 }
 
 .dashboard-toggle.active::after {
@@ -198,7 +197,6 @@
   font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
-  z-index: 10;
 }
 
 .tooltip-pink::after {
@@ -285,125 +283,112 @@
   border: 1px solid rgba(236, 72, 153, 0.3);
 }
 
-/* Mobile Touch Targets - CRITICAL FOR MOBILE */
-.mobile-touch-target {
-  min-height: 44px;
-  min-width: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Progress bar styling */
+.progress-bar {
+  height: 6px;
+  background-color: var(--color-gray-200);
+  border-radius: 3px;
+  overflow: hidden;
 }
 
-/* Mobile specific styles */
-@media (max-width: 768px) {
-  /* Prevent zoom on iOS for inputs */
-  input[type="text"],
-  input[type="search"],
-  input[type="email"],
-  input[type="tel"],
-  input[type="number"] {
-    font-size: 16px !important;
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-pink-500), var(--color-pink-600));
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* Loading animation */
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
   }
-  
-  /* Mobile-specific spacing */
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Fade in animation */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+/* Slide in animation for sidebar */
+@keyframes slide-in {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out forwards;
+}
+
+/* Chart animation */
+@keyframes chart-grow {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--chart-height);
+  }
+}
+
+.animate-chart-grow {
+  animation: chart-grow 0.8s ease-out forwards;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
   .mobile-stack {
     flex-direction: column;
+    gap: 16px;
   }
   
   .mobile-full-width {
-    width: 100% !important;
-  }
-  
-  /* Hide elements on mobile */
-  .mobile-hide {
-    display: none !important;
-  }
-  
-  /* Show mobile-only elements */
-  .mobile-show {
-    display: block !important;
-  }
-  
-  /* Larger text on mobile */
-  .mobile-text-lg {
-    font-size: 18px !important;
-  }
-  
-  /* Adjust padding for mobile */
-  .mobile-p-2 {
-    padding: 8px !important;
-  }
-  
-  /* Prevent horizontal scroll */
-  body {
-    overflow-x: hidden;
-    position: relative;
-  }
-  
-  /* Mobile sidebar animation */
-  .mobile-slide-in {
-    animation: slideIn 0.3s ease-out;
-    z-index: 50;
-  }
-  
-  @keyframes slideIn {
-    from {
-      transform: translateX(-100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-  
-  /* Mobile backdrop */
-  .mobile-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 40;
-    animation: fadeIn 0.3s ease-out;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-}
-
-/* Tablet adjustments */
-@media (max-width: 1024px) and (min-width: 769px) {
-  .tablet-stack {
-    flex-direction: column;
-  }
-  
-  .tablet-full-width {
     width: 100%;
   }
+  
+  .mobile-text-center {
+    text-align: center;
+  }
+  
+  .mobile-hide {
+    display: none;
+  }
+  
+  .mobile-show {
+    display: block;
+  }
 }
 
-/* Small mobile devices */
 @media (max-width: 480px) {
-  .mobile-sm-hide {
-    display: none !important;
+  .mobile-sm-padding {
+    padding: 12px;
   }
   
-  .mobile-sm-text-sm {
-    font-size: 12px !important;
-  }
-  
-  .mobile-sm-p-1 {
-    padding: 4px !important;
-  }
-  
-  /* Even larger touch targets for very small screens */
-  .mobile-touch-target {
-    min-height: 48px;
-    min-width: 48px;
+  .mobile-sm-text {
+    font-size: 14px;
   }
 }
 
@@ -445,16 +430,5 @@
   
   .shadow-dashboard-card {
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2), 0px 1px 2px rgba(0, 0, 0, 0.3);
-  }
-}
-
-/* Fix for iOS Safari */
-@supports (-webkit-touch-callout: none) {
-  .h-screen {
-    height: -webkit-fill-available;
-  }
-  
-  input, textarea {
-    font-size: 16px !important;
   }
 }
