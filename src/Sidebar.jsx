@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, Star, Target, BarChart3, Plus, FileText, Settings } from 'lucide-react';
+import { ChevronDown, Star, Target, BarChart3, Plus, FileText, Settings, X } from 'lucide-react';
 
 const Sidebar = ({ collapsed, toggleCollapse, isMobile }) => {
   const [codenameOpen, setCodenameOpen] = useState(true);
@@ -10,7 +10,7 @@ const Sidebar = ({ collapsed, toggleCollapse, isMobile }) => {
 
   return (
     <>
-      {/* Mobile Backdrop */}
+      {/* Mobile Backdrop - Shows when sidebar is open on mobile */}
       {isMobile && !collapsed && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
@@ -21,7 +21,7 @@ const Sidebar = ({ collapsed, toggleCollapse, isMobile }) => {
       <aside 
         className={`
           ${collapsed ? 'w-16' : 'w-64'} 
-          ${isMobile ? 'fixed inset-y-0 left-0 z-50 w-64 mobile-slide-in' : 'relative'}
+          ${isMobile ? 'fixed inset-y-0 left-0 z-50 w-64' : 'relative'}
           bg-white border-r border-gray-200 flex flex-col transition-all duration-300 
           flex-shrink-0 h-full shadow-dashboard-sidebar
           ${isMobile && collapsed ? '-translate-x-full' : 'translate-x-0'}
@@ -40,22 +40,22 @@ const Sidebar = ({ collapsed, toggleCollapse, isMobile }) => {
               <ChevronDown className="w-4 h-4 text-gray-400" />
             </>
           )}
-          {collapsed && (
+          {collapsed && !isMobile && (
             <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center mx-auto">
               <span className="text-white font-bold text-sm">C</span>
             </div>
           )}
+          
+          {/* Mobile Close Button - Only show on mobile when sidebar is open */}
+          {isMobile && !collapsed && (
+            <button
+              className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              onClick={toggleCollapse}
+            >
+              <X className="w-5 h-5 text-gray-600" />
+            </button>
+          )}
         </div>
-
-        {/* Mobile Close Button */}
-        {isMobile && !collapsed && (
-          <button
-            className="absolute -right-3 top-6 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center shadow-md hover:bg-gray-900 transition-colors z-10"
-            onClick={toggleCollapse}
-          >
-            ✕
-          </button>
-        )}
 
         {/* Navigation Items */}
         <nav className="flex-1 px-3 py-4 lg:py-6 overflow-y-auto custom-scrollbar">
