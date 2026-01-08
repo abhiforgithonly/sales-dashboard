@@ -3,7 +3,7 @@ import { Search, Plus, Menu, Share2, Download, Share, ChevronDown, Star, Trendin
 import Sidebar from './Sidebar';
 
 const Dashboard = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activeTab, setActiveTab] = useState('revenue');
   const [timeframeActive, setTimeframeActive] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -13,11 +13,6 @@ const Dashboard = () => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-      if (mobile) {
-        setSidebarCollapsed(true);
-      } else {
-        setSidebarCollapsed(false);
-      }
     };
     
     checkMobile();
@@ -27,9 +22,9 @@ const Dashboard = () => {
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
-      {/* Sidebar Component */}
+      {/* Sidebar Component - Always visible on desktop */}
       <Sidebar 
-        collapsed={sidebarCollapsed} 
+        collapsed={isMobile ? true : sidebarCollapsed} 
         toggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
         isMobile={isMobile}
       />
@@ -47,84 +42,77 @@ const Dashboard = () => {
         {/* Top Header */}
         <header className="h-16 bg-white border-b border-gray-100 px-4 lg:px-6 flex items-center justify-between flex-shrink-0 shadow-dashboard-header">
           <div className="flex items-center gap-3 lg:gap-4 flex-1">
-            <button 
-              className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors mobile-touch-target"
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            >
-              <Menu className="w-5 h-5 text-gray-600" />
-            </button>
-            
-            {/* Mobile Logo */}
+            {/* Mobile Menu Button - Only on mobile */}
             {isMobile && (
-              <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center lg:hidden">
-                <span className="text-white font-bold text-sm">C</span>
-              </div>
+              <button 
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              >
+                <Menu className="w-5 h-5 text-gray-600" />
+              </button>
             )}
             
-            {/* Search Bar */}
+            {/* Search Bar - Adjust width for mobile/desktop */}
             <div className="relative flex-1 lg:w-96 max-w-lg">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
-                placeholder={isMobile ? "Search insights" : 'Try searching "insights"'}
-                className="w-full pl-9 lg:pl-10 pr-4 py-3 border border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent input-focus"
+                placeholder='Try searching "insights"'
+                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent input-focus"
               />
             </div>
           </div>
 
           {/* Right Side Actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             {!isMobile && (
               <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors icon-hover">
                 <Menu className="w-5 h-5 text-gray-600" />
               </button>
             )}
             <div className="w-8 h-8 rounded-full gradient-orange-pink"></div>
-            <button className="w-10 h-10 lg:w-8 lg:h-8 bg-pink-500 rounded-full flex items-center justify-center text-white hover:bg-pink-600 transition-colors shadow-md icon-hover mobile-touch-target">
+            <button className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center text-white hover:bg-pink-600 transition-colors shadow-md icon-hover">
               <Plus className="w-5 h-5" />
             </button>
           </div>
         </header>
 
         {/* Team Members Bar */}
-        <div className="bg-white border-b border-gray-100 px-4 lg:px-6 py-3 flex items-center justify-between flex-shrink-0 overflow-x-auto">
-          <div className="flex items-center gap-3 min-w-max">
+        <div className="bg-white border-b border-gray-100 px-4 lg:px-6 py-3 flex items-center justify-between flex-shrink-0">
+          <div className="flex items-center gap-3 overflow-x-auto lg:overflow-visible">
             {/* Add Member Button */}
-            <button className="w-10 h-10 lg:w-8 lg:h-8 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center hover:border-gray-400 transition-colors mobile-touch-target">
-              <Plus className="w-5 h-5 lg:w-4 lg:h-4 text-gray-400" />
+            <button className="w-8 h-8 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center hover:border-gray-400 transition-colors flex-shrink-0">
+              <Plus className="w-4 h-4 text-gray-400" />
             </button>
 
             {/* Team Members */}
-            <div className="flex items-center gap-2">
-              <img src="https://i.pravatar.cc/150?img=1" alt="Armin A." className="w-10 h-10 lg:w-8 lg:h-8 rounded-full object-cover avatar-border" />
-              <span className="text-sm text-gray-700 font-medium hidden sm:inline">Armin A.</span>
-              <span className="text-sm text-gray-700 font-medium sm:hidden">A.A.</span>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <img src="https://i.pravatar.cc/150?img=1" alt="Armin A." className="w-8 h-8 rounded-full object-cover avatar-border" />
+              <span className="text-sm text-gray-700 font-medium">Armin A.</span>
             </div>
-            <div className="flex items-center gap-2">
-              <img src="https://i.pravatar.cc/150?img=2" alt="Eren Y." className="w-10 h-10 lg:w-8 lg:h-8 rounded-full object-cover avatar-border" />
-              <span className="text-sm text-gray-700 font-medium hidden sm:inline">Eren Y.</span>
-              <span className="text-sm text-gray-700 font-medium sm:hidden">E.Y.</span>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <img src="https://i.pravatar.cc/150?img=2" alt="Eren Y." className="w-8 h-8 rounded-full object-cover avatar-border" />
+              <span className="text-sm text-gray-700 font-medium">Eren Y.</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 lg:w-8 lg:h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-semibold avatar-border">M</div>
-              <span className="text-sm text-gray-700 font-medium hidden sm:inline">Mikasa A.</span>
-              <span className="text-sm text-gray-700 font-medium sm:hidden">M.A.</span>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-semibold avatar-border">M</div>
+              <span className="text-sm text-gray-700 font-medium">Mikasa A.</span>
             </div>
-            <button className="w-10 h-10 lg:w-8 lg:h-8 bg-gray-900 rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors avatar-border mobile-touch-target">
+            <button className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors avatar-border flex-shrink-0">
               <span className="text-white text-xs font-bold">C</span>
             </button>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-2 ml-4">
-            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors icon-hover hidden sm:flex">
-              <Share2 className="w-5 h-5 lg:w-4 lg:h-4 text-gray-600" />
+          <div className="flex items-center gap-2">
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors icon-hover">
+              <Share2 className="w-4 h-4 text-gray-600" />
             </button>
-            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors icon-hover mobile-touch-target">
-              <Download className="w-5 h-5 lg:w-4 lg:h-4 text-gray-600" />
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors icon-hover">
+              <Download className="w-4 h-4 text-gray-600" />
             </button>
-            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors icon-hover mobile-touch-target">
-              <Share className="w-5 h-5 lg:w-4 lg:h-4 text-gray-600" />
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors icon-hover">
+              <Share className="w-4 h-4 text-gray-600" />
             </button>
           </div>
         </div>
@@ -147,8 +135,8 @@ const Dashboard = () => {
                 </div>
 
                 {/* Date Range Selector */}
-                <button className="flex items-center justify-between w-full sm:w-auto gap-2 px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-700 font-medium hover:bg-gray-50 transition-colors mobile-touch-target">
-                  <span>Sep 1 - Nov 30, 2023</span>
+                <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+                  Sep 1 - Nov 30, 2023
                   <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" />
                 </button>
               </div>
@@ -164,7 +152,7 @@ const Dashboard = () => {
                   <div className="flex flex-wrap items-baseline gap-2 mb-2">
                     <span className="text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight">$528,976</span>
                     <span className="text-3xl lg:text-4xl font-light text-gray-400 tracking-tight">.82</span>
-                    <div className="flex flex-wrap gap-2 mt-2">
+                    <div className="flex gap-2 mt-2">
                       <span className="px-2.5 py-1.5 bg-red-50 text-red-600 text-xs font-semibold rounded border border-red-100">-7.9%</span>
                       <span className="px-2.5 py-1.5 bg-red-500 text-white text-xs font-semibold rounded">-$27,935.04</span>
                     </div>
@@ -176,11 +164,11 @@ const Dashboard = () => {
                 </div>
 
                 {/* Stats Cards Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4 w-full lg:w-auto">
+                <div className="grid grid-cols-2 lg:flex lg:flex-nowrap gap-3 lg:gap-4 w-full lg:w-auto">
                   {/* Top Sales Card */}
-                  <div className="bg-white border border-gray-200 rounded-dashboard p-4 hover-lift mobile-touch-target">
-                    <div className="text-xs text-gray-500 mb-2 lg:mb-3">Top sales</div>
-                    <div className="text-xl lg:text-2xl font-bold text-gray-900 mb-3 lg:mb-4">72</div>
+                  <div className="bg-white border border-gray-200 rounded-dashboard p-4 hover-lift min-w-[140px]">
+                    <div className="text-xs text-gray-500 mb-3">Top sales</div>
+                    <div className="text-2xl font-bold text-gray-900 mb-4">72</div>
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-semibold">M</div>
                       <span className="text-sm text-gray-700 flex-1">Mikasa</span>
@@ -189,12 +177,12 @@ const Dashboard = () => {
                   </div>
 
                   {/* Best Deal Card */}
-                  <div className="bg-gray-900 text-white rounded-dashboard p-4 hover-lift mobile-touch-target">
-                    <div className="flex items-center justify-between mb-2 lg:mb-3">
+                  <div className="bg-gray-900 text-white rounded-dashboard p-4 hover-lift min-w-[140px]">
+                    <div className="flex items-center justify-between mb-3">
                       <span className="text-xs text-gray-300">Best deal</span>
                       <Star className="w-4 h-4 fill-white text-white" />
                     </div>
-                    <div className="text-base lg:text-lg font-semibold mb-2 lg:mb-3">$44,142</div>
+                    <div className="text-lg font-semibold mb-3">$44,142</div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm">Rolf Inc.</span>
                       <button className="w-5 h-5 bg-white rounded flex items-center justify-center hover:bg-gray-100 transition-colors">
@@ -204,9 +192,9 @@ const Dashboard = () => {
                   </div>
 
                   {/* Deals Card */}
-                  <div className="bg-white border border-gray-200 rounded-dashboard p-4 hover-lift mobile-touch-target">
-                    <div className="text-xs text-gray-500 mb-1 lg:mb-2">Deals</div>
-                    <div className="text-xl lg:text-2xl font-bold text-gray-900 mb-1 lg:mb-2">439</div>
+                  <div className="bg-white border border-gray-200 rounded-dashboard p-4 hover-lift min-w-[120px]">
+                    <div className="text-xs text-gray-500 mb-2">Deals</div>
+                    <div className="text-2xl font-bold text-gray-900 mb-2">439</div>
                     <div className="flex items-center gap-1 text-xs text-red-500 font-medium">
                       <TrendingDown className="w-3 h-3" />
                       <span>5</span>
@@ -214,9 +202,9 @@ const Dashboard = () => {
                   </div>
 
                   {/* Value Card */}
-                  <div className="bg-white border border-gray-200 rounded-dashboard p-4 hover-lift mobile-touch-target">
-                    <div className="text-xs text-gray-500 mb-1 lg:mb-2">Value</div>
-                    <div className="text-base lg:text-lg font-bold text-pink-500 mb-1 lg:mb-2">$288k</div>
+                  <div className="bg-white border border-gray-200 rounded-dashboard p-4 hover-lift min-w-[120px]">
+                    <div className="text-xs text-gray-500 mb-2">Value</div>
+                    <div className="text-lg font-bold text-pink-500 mb-2">$288k</div>
                     <div className="flex items-center gap-1 text-xs text-green-600 font-medium">
                       <TrendingUp className="w-3 h-3" />
                       <span>7.9%</span>
@@ -224,9 +212,9 @@ const Dashboard = () => {
                   </div>
 
                   {/* Win Rate Card */}
-                  <div className="bg-white border border-gray-200 rounded-dashboard p-4 hover-lift mobile-touch-target">
-                    <div className="text-xs text-gray-500 mb-1 lg:mb-2">Win rate</div>
-                    <div className="text-xl lg:text-2xl font-bold text-gray-900 mb-1 lg:mb-2">64%</div>
+                  <div className="bg-white border border-gray-200 rounded-dashboard p-4 hover-lift min-w-[120px]">
+                    <div className="text-xs text-gray-500 mb-2">Win rate</div>
+                    <div className="text-2xl font-bold text-gray-900 mb-2">64%</div>
                     <div className="flex items-center gap-1 text-xs text-green-600 font-medium">
                       <TrendingUp className="w-3 h-3" />
                       <span>1.2%</span>
@@ -236,60 +224,60 @@ const Dashboard = () => {
               </div>
 
               {/* User Performance Stats */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 lg:gap-8 mb-6 lg:mb-8 pb-6 lg:pb-8 border-b border-gray-200">
-                <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-4 lg:gap-8 w-full sm:w-auto">
+              <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8 mb-6 lg:mb-8 pb-6 lg:pb-8 border-b border-gray-200">
+                <div className="grid grid-cols-2 lg:flex lg:flex-wrap gap-4 lg:gap-8 w-full lg:w-auto">
                   <div className="flex items-center gap-3">
-                    <img src="https://i.pravatar.cc/150?img=1" alt="" className="w-10 h-10 lg:w-8 lg:h-8 rounded-full object-cover border-2 border-white shadow-sm" />
+                    <img src="https://i.pravatar.cc/150?img=1" alt="" className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm" />
                     <div>
                       <div className="text-lg font-semibold text-gray-900">$209,633</div>
                       <div className="text-xs text-gray-500">39.63%</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 lg:w-8 lg:h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-semibold border-2 border-white shadow-sm">M</div>
+                    <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-semibold border-2 border-white shadow-sm">M</div>
                     <div>
                       <div className="text-lg font-semibold text-gray-900">$156,841</div>
                       <div className="text-xs text-gray-500">29.65%</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <img src="https://i.pravatar.cc/150?img=2" alt="" className="w-10 h-10 lg:w-8 lg:h-8 rounded-full object-cover border-2 border-white shadow-sm" />
+                    <img src="https://i.pravatar.cc/150?img=2" alt="" className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm" />
                     <div>
                       <div className="text-lg font-semibold text-gray-900">$117,115</div>
                       <div className="text-xs text-gray-500">22.14%</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 lg:w-8 lg:h-8 bg-gray-900 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white shadow-sm">C</div>
+                    <div className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white shadow-sm">C</div>
                     <div>
                       <div className="text-lg font-semibold text-gray-900">$45,386</div>
                       <div className="text-xs text-gray-500">8.58%</div>
                     </div>
                   </div>
                 </div>
-                <button className="w-full sm:w-auto px-6 py-3 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors shadow-sm hover-lift mobile-touch-target mt-4 sm:mt-0 sm:ml-auto">
+                <button className="px-6 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors shadow-sm hover-lift w-full lg:w-auto mt-4 lg:mt-0 lg:ml-auto">
                   Details
                 </button>
               </div>
 
               {/* Filters and Platform List */}
               <div>
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 lg:mb-6 gap-3">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-4 lg:mb-6 gap-3">
                   <div className="flex items-center gap-4">
-                    <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors icon-hover mobile-touch-target">
+                    <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors icon-hover">
                       <Menu className="w-4 h-4 text-gray-600" />
                     </button>
-                    <button className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 font-medium hover:bg-gray-100 rounded-lg transition-colors mobile-touch-target">
+                    <button className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 font-medium hover:bg-gray-100 rounded-lg transition-colors">
                       Filters
                       <Filter className="w-4 h-4" />
                     </button>
                   </div>
                   <div className="flex items-center gap-2">
-                    <button className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 font-medium hover:bg-gray-100 rounded-lg transition-colors mobile-touch-target">
+                    <button className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 font-medium hover:bg-gray-100 rounded-lg transition-colors">
                       <BarChart3 className="w-4 h-4" />
                       <ChevronDown className="w-4 h-4" />
                     </button>
-                    <button className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 font-medium hover:bg-gray-100 rounded-lg transition-colors mobile-touch-target">
+                    <button className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 font-medium hover:bg-gray-100 rounded-lg transition-colors">
                       Filters
                       <Filter className="w-4 h-4" />
                     </button>
@@ -304,14 +292,14 @@ const Dashboard = () => {
                     { name: 'Behance', icon: 'Be', bg: 'bg-blue-100', text: 'text-blue-500', amount: '$89,935', percent: '11%' },
                     { name: 'Google', icon: 'G', bg: 'bg-red-100', text: 'text-red-500', amount: '$37,028', percent: '7%' }
                   ].map((platform, index) => (
-                    <div key={index} className="flex flex-col sm:flex-row sm:items-center p-3 lg:p-4 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer hover-lift mobile-touch-target">
-                      <div className="flex items-center gap-3 flex-1 mb-2 sm:mb-0">
-                        <div className={`w-10 h-10 lg:w-8 lg:h-8 rounded-full ${platform.bg} flex items-center justify-center border border-gray-100`}>
-                          <span className={`${platform.text} font-bold text-base lg:text-sm`}>{platform.icon}</span>
+                    <div key={index} className="flex items-center p-3 lg:p-4 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer hover-lift">
+                      <div className="flex items-center gap-3 flex-1">
+                        <div className={`w-8 h-8 rounded-full ${platform.bg} flex items-center justify-center border border-gray-100`}>
+                          <span className={`${platform.text} font-bold text-sm`}>{platform.icon}</span>
                         </div>
                         <span className="text-sm font-semibold text-gray-900">{platform.name}</span>
                       </div>
-                      <div className="flex items-center justify-between sm:justify-end sm:gap-12">
+                      <div className="flex items-center gap-8">
                         <span className="text-sm font-semibold text-gray-900">{platform.amount}</span>
                         <span className="text-sm text-gray-500 font-medium w-12 text-right">{platform.percent}</span>
                       </div>
@@ -324,11 +312,11 @@ const Dashboard = () => {
             {/* ========== BOTTOM GRID SECTION ========== */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
               {/* Platform Value Card - Dribbble */}
-              <div className="bg-white rounded-dashboard shadow-dashboard-card p-4 lg:p-6 hover-lift">
+              <div className="bg-white rounded-dashboard shadow-dashboard-card p-4 lg:p-6">
                 <div className="flex items-center justify-between mb-4 lg:mb-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 lg:w-8 lg:h-8 rounded-full bg-pink-100 flex items-center justify-center border border-pink-200">
-                      <span className="text-pink-500 font-bold text-base lg:text-sm">D</span>
+                    <div className="w-8 h-8 rounded-full bg-pink-100 flex items-center justify-center border border-pink-200">
+                      <span className="text-pink-500 font-bold text-sm">D</span>
                     </div>
                     <div>
                       <div className="text-xs text-gray-500">Platform value</div>
@@ -340,39 +328,39 @@ const Dashboard = () => {
 
                 {/* Gradient Stats Card */}
                 <div className="gradient-pink-dark rounded-dashboard p-4 lg:p-6 text-white mb-4 lg:mb-6 hover-lift">
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
+                  <div className="space-y-4 lg:space-y-6">
                     <div>
                       <div className="text-xs opacity-90 mb-2">Revenue</div>
-                      <div className="text-xl lg:text-2xl font-bold">$18,552</div>
+                      <div className="text-2xl font-bold">$18,552</div>
                     </div>
                     <div>
                       <div className="text-xs opacity-90 mb-2">Leads</div>
-                      <div className="text-base lg:text-lg font-semibold">373 <span className="text-sm opacity-75">87/276</span></div>
+                      <div className="text-lg font-semibold">373 <span className="text-sm opacity-75">87/276</span></div>
                     </div>
                     <div>
                       <div className="text-xs opacity-90 mb-2">Win rate</div>
-                      <div className="text-base lg:text-lg font-semibold">18% <span className="text-sm opacity-75">51/318</span></div>
+                      <div className="text-lg font-semibold">18% <span className="text-sm opacity-75">51/318</span></div>
                     </div>
                   </div>
                 </div>
 
                 {/* Chart Section */}
                 <div>
-                  <div className="flex flex-wrap items-center gap-2 mb-4 lg:mb-6">
+                  <div className="flex items-center gap-2 mb-4 lg:mb-6">
                     <button 
-                      className={`px-4 py-2 text-xs font-semibold rounded-lg transition-colors mobile-touch-target ${activeTab === 'revenue' ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'}`}
+                      className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${activeTab === 'revenue' ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'}`}
                       onClick={() => setActiveTab('revenue')}
                     >
                       Revenue
                     </button>
                     <button 
-                      className={`px-4 py-2 text-xs font-semibold rounded-lg transition-colors mobile-touch-target ${activeTab === 'leads' ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'}`}
+                      className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${activeTab === 'leads' ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'}`}
                       onClick={() => setActiveTab('leads')}
                     >
                       Leads
                     </button>
                     <button 
-                      className={`px-4 py-2 text-xs font-semibold rounded-lg transition-colors mobile-touch-target ${activeTab === 'wl' ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'}`}
+                      className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${activeTab === 'wl' ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'}`}
                       onClick={() => setActiveTab('wl')}
                     >
                       W/L
@@ -414,26 +402,26 @@ const Dashboard = () => {
                   {/* Team Avatars */}
                   <div className="flex justify-center gap-1">
                     {[1, 2, 3, 4, 5, 6, 7].map((i) => (
-                      <img key={i} src={`https://i.pravatar.cc/150?img=${i}`} alt="" className="w-8 h-8 rounded-full border-2 border-white shadow-sm object-cover" />
+                      <img key={i} src={`https://i.pravatar.cc/150?img=${i}`} alt="" className="w-6 h-6 rounded-full border-2 border-white shadow-sm object-cover" />
                     ))}
                   </div>
                 </div>
               </div>
 
               {/* Deals Amount Card */}
-              <div className="bg-white rounded-dashboard shadow-dashboard-card p-4 lg:p-6 hover-lift">
+              <div className="bg-white rounded-dashboard shadow-dashboard-card p-4 lg:p-6">
                 <div className="flex items-center justify-between mb-4 lg:mb-6">
                   <div className="flex gap-2">
-                    <div className="w-10 h-10 lg:w-8 lg:h-8 rounded-lg bg-blue-100 flex items-center justify-center border border-blue-200">
+                    <div className="w-8 h-8 rounded bg-blue-100 flex items-center justify-center border border-blue-200">
                       <span className="text-blue-500 font-bold text-xs">Be</span>
                     </div>
-                    <div className="w-10 h-10 lg:w-8 lg:h-8 rounded-lg bg-pink-100 flex items-center justify-center border border-pink-200">
+                    <div className="w-8 h-8 rounded bg-pink-100 flex items-center justify-center border border-pink-200">
                       <span className="text-pink-500 font-bold text-xs">D</span>
                     </div>
-                    <div className="w-10 h-10 lg:w-8 lg:h-8 rounded-lg bg-gray-100 flex items-center justify-center border border-gray-200">
+                    <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center border border-gray-200">
                       <span className="text-gray-600 font-bold text-xs">G</span>
                     </div>
-                    <div className="w-10 h-10 lg:w-8 lg:h-8 rounded-lg bg-pink-100 flex items-center justify-center border border-pink-200">
+                    <div className="w-8 h-8 rounded bg-pink-100 flex items-center justify-center border border-pink-200">
                       <span className="text-pink-500 font-bold text-xs">📷</span>
                     </div>
                   </div>
