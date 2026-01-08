@@ -3,7 +3,7 @@ import { Search, Plus, Menu, Share2, Download, Share, ChevronDown, Star, Trendin
 import Sidebar from './Sidebar';
 
 const Dashboard = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false); // Start expanded on mobile
   const [activeTab, setActiveTab] = useState('revenue');
   const [timeframeActive, setTimeframeActive] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -22,12 +22,14 @@ const Dashboard = () => {
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
-      {/* Sidebar Component - Always visible on desktop */}
-      <Sidebar 
-        collapsed={isMobile ? true : sidebarCollapsed} 
-        toggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-        isMobile={isMobile}
-      />
+      {/* Sidebar Component - Show on mobile when not collapsed */}
+      {(!isMobile || !sidebarCollapsed) && (
+        <Sidebar 
+          collapsed={isMobile ? false : sidebarCollapsed} 
+          toggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+          isMobile={isMobile}
+        />
+      )}
 
       {/* Overlay for mobile when sidebar is open */}
       {isMobile && !sidebarCollapsed && (
@@ -39,20 +41,22 @@ const Dashboard = () => {
 
       {/* ========== MAIN CONTENT ========== */}
       <main className="flex-1 flex flex-col overflow-hidden min-w-0">
-        {/* Top Header */}
+        {/* Top Header - ALWAYS show hamburger on mobile */}
         <header className="h-16 bg-white border-b border-gray-100 px-4 lg:px-6 flex items-center justify-between flex-shrink-0 shadow-dashboard-header">
           <div className="flex items-center gap-3 lg:gap-4 flex-1">
-            {/* Mobile Menu Button - Only on mobile */}
-            {isMobile && (
-              <button 
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              >
-                <Menu className="w-5 h-5 text-gray-600" />
-              </button>
-            )}
+            {/* Mobile Menu Button - ALWAYS show on mobile */}
+            <button 
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors lg:hidden"
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            >
+              {sidebarCollapsed ? (
+                <Menu className="w-5 h-5 text-gray-600" /> // Hamburger icon when collapsed
+              ) : (
+                <Menu className="w-5 h-5 text-gray-600 rotate-90" /> // Different icon when open
+              )}
+            </button>
             
-            {/* Search Bar - Adjust width for mobile/desktop */}
+            {/* Search Bar */}
             <div className="relative flex-1 lg:w-96 max-w-lg">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
