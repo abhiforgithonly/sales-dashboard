@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics Dashboard | Codename.com</title>
+    <meta name="description" content="Pixel-perfect analytics dashboard with revenue insights, team collaboration, and platform statistics">
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="https://fonts.googleapis.com" as="font" crossorigin />
+    <link rel="preload" href="https://fonts.gstatic.com" as="font" crossorigin />
+    
+    <!-- Load Inter font (400, 500, 600, 700 weights for optimal performance) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#EC4899">
+    <meta name="msapplication-TileColor" content="#111827">
+    <meta name="theme-color" content="#111827">
+    
+    <!-- Open Graph tags for social sharing -->
+    <meta property="og:title" content="Analytics Dashboard | Codename.com" />
+    <meta property="og:description" content="Professional analytics dashboard with revenue insights, team collaboration, and platform statistics" />
+    <meta property="og:image" content="https://analytics-dashboard.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="https://analytics-dashboard.vercel.app" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Analytics Dashboard" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Analytics Dashboard | Codename.com" />
+    <meta name="twitter:description" content="Professional analytics dashboard with revenue insights, team collaboration, and platform statistics" />
+    <meta name="twitter:image" content="https://analytics-dashboard.vercel.app/og-image.png" />
+    <meta name="twitter:creator" content="@codename" />
+    
+    <!-- Additional meta tags -->
+    <meta name="keywords" content="analytics, dashboard, revenue, metrics, business, insights, react, tailwind" />
+    <meta name="author" content="Codename.com" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://analytics-dashboard.vercel.app" />
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Analytics Dashboard",
+      "description": "Professional analytics dashboard for business insights",
+      "url": "https://analytics-dashboard.vercel.app",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "author": {
+        "@type": "Organization",
+        "name": "Codename.com"
+      },
+      "screenshot": "https://analytics-dashboard.vercel.app/screenshot.png"
+    }
+    </script>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="application-name" content="Analytics Dashboard">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Analytics Dashboard">
+    
+    <!-- Preconnect to external resources -->
+    <link rel="dns-prefetch" href="https://i.pravatar.cc">
+    <link rel="preconnect" href="https://i.pravatar.cc">
+    
+    <!-- Performance optimization -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    
+    <!-- Critical CSS (optional - inline small critical styles) -->
+    <style>
+      /* Critical CSS for initial paint */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        background-color: #F9FAFB;
+        overflow-x: hidden;
+      }
+      
+      #root {
+        min-height: 100vh;
+        position: relative;
+      }
+      
+      /* Loading animation */
+      .loading-skeleton {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+      }
+      
+      @keyframes loading {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+      
+      /* Prevent FOUC */
+      .js-loading * {
+        animation-play-state: paused !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading fallback (optional) -->
+    <noscript>
+      <div style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #F9FAFB;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+        z-index: 9999;
+      ">
+        <div style="
+          max-width: 600px;
+          background: white;
+          padding: 40px;
+          border-radius: 12px;
+          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+        ">
+          <h1 style="
+            font-size: 24px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 16px;
+          ">
+            JavaScript Required
+          </h1>
+          <p style="
+            color: #6B7280;
+            margin-bottom: 24px;
+            line-height: 1.6;
+          ">
+            This analytics dashboard requires JavaScript to function properly. Please enable JavaScript in your browser settings and refresh the page.
+          </p>
+          <div style="
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+          ">
+            <a href="https://www.enable-javascript.com/" target="_blank" style="
+              background: #EC4899;
+              color: white;
+              padding: 12px 24px;
+              border-radius: 8px;
+              text-decoration: none;
+              font-weight: 500;
+              transition: background-color 0.2s;
+            " onmouseover="this.style.backgroundColor='#DB2777'" onmouseout="this.style.backgroundColor='#EC4899'">
+              How to Enable JavaScript
+            </a>
+            <button onclick="location.reload()" style="
+              background: #E5E7EB;
+              color: #374151;
+              padding: 12px 24px;
+              border-radius: 8px;
+              border: none;
+              font-weight: 500;
+              cursor: pointer;
+              transition: background-color 0.2s;
+            " onmouseover="this.style.backgroundColor='#D1D5DB'" onmouseout="this.style.backgroundColor='#E5E7EB'">
+              Refresh Page
+            </button>
+          </div>
+        </div>
+      </div>
+    </noscript>
+    
+    <!-- Main app container -->
+    <div id="root"></div>
+    
+    <!-- Loading script -->
+    <script>
+      // Remove loading class when page loads
+      document.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.remove('js-loading');
+      });
+      
+      // Add loading class initially to prevent FOUC
+      document.body.classList.add('js-loading');
+      
+      // Service Worker registration (optional for PWA)
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(error => {
+            console.log('ServiceWorker registration failed:', error);
+          });
+        });
+      }
+      
+      // Performance monitoring
+      window.addEventListener('load', function() {
+        if (window.performance) {
+          const perfData = window.performance.getEntriesByType('navigation')[0];
+          if (perfData) {
+            console.log('Page loaded in:', Math.round(perfData.domContentLoadedEventEnd) + 'ms');
+          }
+        }
+      });
+      
+      // Error handling
+      window.addEventListener('error', function(e) {
+        console.error('Application error:', e.error);
+        // You could send this to an error tracking service
+      });
+    </script>
+    
+    <!-- Main application script -->
+    <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Google Analytics (optional - add your own tracking ID) -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    -->
+  </body>
+</html>
