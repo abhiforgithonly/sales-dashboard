@@ -1,16 +1,77 @@
-# React + Vite
+# Sales Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A pixel-perfect **Sales Analytics Dashboard** built using **React** and **Vite**, focused on clean UI, modular components, and dashboard-style layouts.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Modern sales analytics dashboard UI
+- Sidebar-based layout
+- Modular React components
+- Clean and organized CSS styling
+- Fast development with Vite
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- Vite
+- JavaScript (ES6+)
+- CSS
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+sales-dashboard/
+├── src/
+│   ├── assets/                 # Static assets
+│   ├── App.css                 # Global app styles
+│   ├── App.jsx                 # Root component
+│   ├── Dashboard.jsx           # Main dashboard layout
+│   ├── Sidebar.jsx             # Sidebar navigation
+│   ├── dashboard-styles.css    # Dashboard-specific styles
+│   ├── index.css               # Global CSS
+│   └── main.jsx                # App entry point
+├── index.html
+├── package.json
+├── vite.config.js
+└── README.md
+```
+
+## Installation & Setup
+
+Clone the repository:
+
+```bash
+git clone https://github.com/abhiforgithonly/sales-dashboard.git
+cd sales-dashboard
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Open in browser:
+
+```
+http://localhost:5173
+```
+
+## Usage
+
+This project can be used as a base for:
+- Sales analytics dashboards
+- Admin panels
+- Business intelligence UIs
+
+You can easily extend it by integrating APIs, charts, and authentication.
+
+## License
+
+This project is open-source and available under the MIT License.
